@@ -97,15 +97,16 @@
     }
     .locked .riddle { filter: blur(6px); user-select: none; }
     .locknote { color: var(--ink); margin-top: 8px; }
+    a { color: var(--ink); }
   </style>
 </head>
 <body>
   <div class="wrap">
     <header>
-      <div class="stamp">File 001 · Mission Codename: Shielded</div>
+      <div class="stamp">File 001 · Mission Codename: Shield</div>
       <h1>ZECRET AGENTZ</h1>
-      <p>Become a secret agent. Carry out the mission.</p>
-      <div class="board" id="board">FILE 0 / 404 · 1st DESK OPEN · DEAD DROP SEALED</div>
+      <p>Become a Zecret agent. Carry out the mission.</p>
+      <div class="board" id="board">Active Agents 0 / 404 · 1st DESK OPEN · DEAD DROP SEALED</div>
       <nav>
         <button class="on" data-go="home">Home</button>
         <button data-go="get">Get ZEC</button>
@@ -117,14 +118,14 @@
     </header>
 
     <section id="home" class="on">
-      <p>Pay <strong>$10 in shielded ZEC</strong> from one <code>u1</code>. That wallet is licensed for every mission that follows. Shielded to protect your agent's identity.</p>
-      <p><strong>Mission rewards at the Dead Drop. Inventory:</strong> <strong>1 ZEC + zkSNARK #4931</strong>.</p>
+      <p>Pay <strong>$10 in shielded ZEC</strong> from one <code>u1</code>. That address is licensed for every mission that follows. Shielded to protect your agent's identity.</p>
+      <p><strong>First valid transaction submitted takes zkSNARK #4931.</strong></p>
       <div class="card">
-        <p class="mute">Dead Drop portrait · 2nd valid passcode</p>
+        <p class="mute">1st prize · first valid passcode</p>
         <p class="stamp">zkSNARKs #4931</p>
-        <img class="snark" src="snark.png" alt="zkSNARKs prize for second valid passcode">
+        <img class="snark" src="snark.png" alt="zkSNARKs #4931 first prize">
       </div>
-      <p>Five privacy riddles. One new mission every 24 hours. For each mission, send a dust transaction (0.001zec) to 1st Desk with the answer in the memo formatted as shown. When the final mission is released the first valid transaction to the dead drop address with passcode from mission 5 takes the ZEC. Second valid transaction takes the zkSnark #4931.</p>
+      <p>Five privacy riddles. One new mission every 24 hours. For missions 1–4, send dust (0.001 ZEC) to 1st Desk with the memo shown. Mission 5’s answer opens the shard 5 vault — 1st desk will not send shard 5. Assemble all five shards, then send 0.001 ZEC to that hidden <code>u1</code> with the password. First valid transaction receives zkSnark #4931. Valid transactions after will receive WL AGENTZ (24hr window).</p>
       <div class="row">
         <button class="btn" data-go="get">Get ZEC</button>
         <button class="btn" data-go="license">Buy a license</button>
@@ -144,23 +145,24 @@
 
     <section id="license">
       <h2>One Off License Fee · $10</h2>
-      <p><strong>Shielded ZEC only.</strong></p>
+      <p><strong>Shielded ZEC only.</strong> About <span id="zecAmt">…</span> ZEC right now <span class="mute" id="pxNote"></span></p>
+      <p>Put your own receiving <code>u1</code> in the memo. That is the wallet we license.</p>
       <div class="card">
         <p class="mute">1st Desk address</p>
         <div class="addr">u1ql2qxd5tv4fqz0wt4snmesp85g6sh6j0qwhupas9ax9yfqzhzt6q557505hzllezdwmpfq5ake30r5aq68v5tcjfyxaxxp6g07fq0fwcr8slfxjrz09p74qcf9sjfd2nt07vjenl3wtgsjvkzhn03x7ckmg6h2eddsdjhx9jds3f9hlp</div>
         <p class="mute">Memo</p>
 <pre>ZA/LICENSE
-pay=u1 !!!YOUR_ADDRESS!!!
-codename= ???EZEKIEL???</pre>
+pay= YOUR_u1_ADDRESS
+codename= YOUR_HANDLE</pre>
       </div>
-      <p class="mute">1st Desk transmits between 18:00-21:00 UTC. Pending is not a license.</p>
+      <p class="mute">1st Desk transmits between 18:00–21:00 UTC. Pending is not a license.</p>
       <button class="btn" data-go="missions">I have paid</button>
     </section>
 
     <section id="missions">
       <h2>Five riddles · one every 24 hours</h2>
       <p id="sched" class="mute">Mission clock loading…</p>
-      <p class="mute">Send dust (0.001zec) to 1st Desk after each unlocked mission. Same licensed wallet every time. If correct 1st desk replies with that missions shard. Mission 5 works differently the answer unlocks a hidden page with the last shard.</p>
+      <p class="mute">Send dust (0.001 ZEC) to 1st Desk to complete each of mission 1–4. From same licensed u1 address every time. If the answer is correct, 1st Desk replies with that mission’s shard. Mission 5 is different.</p>
 
       <article class="card mission" data-m="1">
         <h2>Mission 1 · The two ledgers</h2>
@@ -216,38 +218,46 @@ pay=u1YOUR_LICENSED_ADDRESS</pre>
         <div class="riddle">
           <p>One key reads incoming memos and amounts. A different key moves the coins.</p>
           <p>Which key may an agent hand an auditor and still keep the money?</p>
-          <p class="mute">That answer is the door code for shard 5. 1st Desk will not send shard 5 in a memo.</p>
-          <p><a href="shard5.html" style="color:#39ff14;">Open shard 5 vault →</a></p>
+          <p class="mute">That answer is the door code for shard 5. It is not the Dead Drop passcode. 1st Desk will not send shard 5 in a memo.</p>
+          <p><a href="shard5.html">Open shard 5 vault →</a></p>
         </div>
         <p class="locknote" hidden></p>
       </article>
     </section>
 
     <section id="open">
-      <h2>Assemble shards · then open</h2>
-      <p>Build the hidden <code>u1</code> from the five shards. Send dust there — not to 1st Desk.</p>
+      <h2>Assemble shards · transmit the password</h2>
+      <div class="card">
+        <p class="mute">1st valid transaction receives:</p>
+        <p class="stamp">zkSNARKs #4931</p>
+        <img class="snark" src="snark.png" alt="zkSNARKs #4931">
+      </div>
+      <p>Shards 1–4 arrive in 1st Desk memos. Shard 5 is on the vault page after Mission 5.</p>
+      <p>Build the hidden <code>u1</code> from the five shards, in order, no spaces. Send 0.001 ZEC there — not to 1st Desk.</p>
 <pre>ZA/OPEN
-pass=
+password=
 pay=u1YOUR_LICENSED_ADDRESS</pre>
-      <p>1st valid transaction → 1 ZEC.<br>
-         2nd valid transaction → zkSNARK #4931.<br>
-         All valid entries within 24 hours after the Dead Drop is emptied → WL AGENTZ.</p>
+      <p>1st valid transaction → zkSNARK #4931.<br>
+         Valid entries within 24 hours after that → WL AGENTZ.<br>
+         End of transmission.</p>
     </section>
 
     <section id="rules">
       <h2>Rules of the road</h2>
       <p>One licensed <code>u1</code>. Same <code>pay=</code> on license, each mission, and open.</p>
       <p>Missions declassify one per 24 hours from the published start.</p>
-      <p>File cap 404. 1st Desk transmits between 18:00-21:00 UTC.</p>
-      <p>Wrong amount, missing pay, or wrong answer: ignored. No refund.</p>
-      <p>The assembled address is a mailbox. The Cache key is not in the shards.</p>
+      <p>Agent cap 404. 1st Desk transmits between 18:00–21:00 UTC.</p>
+      <p>Wrong amount, missing u1 to pay, or wrong answer: ignored. No refund.</p>
       <p>Shard 5 is not transmitted. It is behind the Mission 5 answer.</p>
+      <p>The Mission 5 answer opens the vault where the last shard is closely guarded. The Dead Drop password is also in the vault. They are not the same word.</p>
+      <p>First valid open on the assembled address receives zkSNARK #4931.desk will</p>
+      <p>The assembled address is a mailbox. The spending key is not in the shards.</p>
     </section>
 
     <footer>Zecret Agentz · memos only · no public ledger of agents</footer>
   </div>
   <script>
-    const MISSION_START = new Date("2026-09-01T18:00:00Z");
+    const MISSION_START = new Date("2026-10-01T18:00:00Z");
     const DAY = 24 * 60 * 60 * 1000;
 
     const sections = document.querySelectorAll("section");
@@ -296,6 +306,30 @@ pay=u1YOUR_LICENSED_ADDRESS</pre>
     }
     tick();
     setInterval(tick, 30000);
+    const USD_FEE = 10;
+    const FALLBACK_ZEC = 0.007; /* used if the price feed fails — update now and then */
+
+    async function quoteLicense() {
+      const el = document.getElementById("zecAmt");
+      const note = document.getElementById("pxNote");
+      if (!el) return;
+      try {
+        const r = await fetch(
+          "https://api.coingecko.com/api/v3/simple/price?ids=zcash&vs_currencies=usd"
+        );
+        const j = await r.json();
+        const usd = j.zcash && j.zcash.usd;
+        if (!usd) throw new Error("no price");
+        const zec = USD_FEE / usd;
+        el.textContent = zec.toFixed(4);
+        note.textContent = "(from live ZEC/USD · send this amount, shielded)";
+      } catch (e) {
+        el.textContent = FALLBACK_ZEC.toFixed(4);
+        note.textContent = "(estimate · Desk may ignore far-off amounts)";
+      }
+    }
+    quoteLicense();
+    setInterval(quoteLicense, 5 * 60 * 1000);
   </script>
 </body>
 </html>
