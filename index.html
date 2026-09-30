@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Zecret Agentz</title>
+  <style>
+    :root {
+      --bg: #050805;
+      --paper: #0b120b;
+      --ink: #39ff14;
+      --mute: #7cff6b;
+      --line: #1d3a1d;
+      --stamp: #39ff14;
+      --ok: #39ff14;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; background: var(--bg); color: var(--ink); }
+    body {
+      font-family: "IBM Plex Mono", ui-monospace, "Courier New", monospace;
+      line-height: 1.55;
+      min-height: 100vh;
+    }
+    .wrap { max-width: 720px; margin: 0 auto; padding: 28px 20px 80px; }
+    header { border-bottom: 1px solid var(--line); padding-bottom: 22px; margin-bottom: 28px; }
+    .stamp {
+      color: var(--stamp);
+      letter-spacing: .28em;
+      font-size: 11px;
+      text-transform: uppercase;
+    }
+    h1 {
+      font-weight: 500;
+      letter-spacing: .18em;
+      font-size: clamp(1.6rem, 5vw, 2.2rem);
+      margin: 10px 0 8px;
+      text-shadow: 0 0 8px #39ff14;
+    }
+    h2 { font-weight: 500; letter-spacing: .08em; font-size: 1.05rem; margin: 0 0 12px; }
+    p { margin: 0 0 14px; }
+    .mute { color: var(--mute); opacity: .85; }
+    nav { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+    nav button, .btn {
+      background: transparent;
+      color: var(--ink);
+      border: 1px solid var(--line);
+      padding: 7px 10px;
+      font: inherit;
+      font-size: 12px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+    nav button.on, .btn:hover { border-color: var(--ink); box-shadow: 0 0 8px #39ff1444; }
+    .board {
+      border: 1px dashed var(--line);
+      padding: 12px 14px;
+      color: var(--ok);
+      font-size: 12px;
+      letter-spacing: .06em;
+      margin: 16px 0;
+    }
+    section { display: none; }
+    section.on { display: block; }
+    .card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      padding: 18px;
+      margin: 16px 0;
+    }
+    pre, .addr {
+      background: #050805;
+      border: 1px solid var(--line);
+      padding: 12px;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-break: break-all;
+      font-size: 13px;
+    }
+    ol { padding-left: 1.2rem; }
+    li { margin: 0 0 8px; }
+    footer {
+      margin-top: 48px;
+      padding-top: 16px;
+      border-top: 1px solid var(--line);
+      color: var(--mute);
+      font-size: 12px;
+    }
+    .row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+    img.snark {
+      width: 100%;
+      max-width: 280px;
+      image-rendering: pixelated;
+      border: 1px solid #39ff14;
+      display: block;
+      margin-top: 10px;
+    }
+    .locked .riddle { filter: blur(6px); user-select: none; }
+    .locknote { color: var(--ink); margin-top: 8px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="stamp">File 001 · Mission Codename: Shielded</div>
+      <h1>ZECRET AGENTZ</h1>
+      <p>Become a secret agent. Carry out the mission.</p>
+      <div class="board" id="board">FILE 0 / 404 · 1st DESK OPEN · DEAD DROP SEALED</div>
+      <nav>
+        <button class="on" data-go="home">Home</button>
+        <button data-go="get">Get ZEC</button>
+        <button data-go="license">License</button>
+        <button data-go="missions">Missions</button>
+        <button data-go="open">Dead Drop</button>
+        <button data-go="rules">Rules</button>
+      </nav>
+    </header>
+
+    <section id="home" class="on">
+      <p>Pay <strong>$10 in shielded ZEC</strong> from one <code>u1</code>. That wallet is licensed for every mission that follows. Shielded to protect your agent's identity.</p>
+      <p><strong>Mission rewards at the Dead Drop. Inventory:</strong> <strong>1 ZEC + zkSNARK #4931</strong>.</p>
+      <div class="card">
+        <p class="mute">Dead Drop portrait · 2nd valid passcode</p>
+        <p class="stamp">zkSNARKs #4931</p>
+        <img class="snark" src="snark.png" alt="zkSNARKs prize for second valid passcode">
+      </div>
+      <p>Five privacy riddles. One new mission every 24 hours. For each mission, send a dust transaction (0.001zec) to 1st Desk with the answer in the memo formatted as shown. When the final mission is released the first valid transaction to the dead drop address with passcode from mission 5 takes the ZEC. Second valid transaction takes the zkSnark #4931.</p>
+      <div class="row">
+        <button class="btn" data-go="get">Get ZEC</button>
+        <button class="btn" data-go="license">Buy a license</button>
+      </div>
+    </section>
+
+    <section id="get">
+      <h2>Get shielded</h2>
+      <ol>
+        <li>Install Noir, Zodl, or Vizor.</li>
+        <li>Get ZEC onto that wallet.</li>
+        <li>If it arrived on a <code>t1</code> address, Shield it.</li>
+        <li>Send yourself a test memo. If you can read it, you can play.</li>
+      </ol>
+      <button class="btn" data-go="license">I am ready</button>
+    </section>
+
+    <section id="license">
+      <h2>One Off License Fee · $10</h2>
+      <p><strong>Shielded ZEC only.</strong></p>
+      <div class="card">
+        <p class="mute">1st Desk address</p>
+        <div class="addr">u1ql2qxd5tv4fqz0wt4snmesp85g6sh6j0qwhupas9ax9yfqzhzt6q557505hzllezdwmpfq5ake30r5aq68v5tcjfyxaxxp6g07fq0fwcr8slfxjrz09p74qcf9sjfd2nt07vjenl3wtgsjvkzhn03x7ckmg6h2eddsdjhx9jds3f9hlp</div>
+        <p class="mute">Memo</p>
+<pre>ZA/LICENSE
+pay=u1 !!!YOUR_ADDRESS!!!
+codename= ???EZEKIEL???</pre>
+      </div>
+      <p class="mute">1st Desk transmits between 18:00-21:00 UTC. Pending is not a license.</p>
+      <button class="btn" data-go="missions">I have paid</button>
+    </section>
+
+    <section id="missions">
+      <h2>Five riddles · one every 24 hours</h2>
+      <p id="sched" class="mute">Mission clock loading…</p>
+      <p class="mute">Send dust (0.001zec) to 1st Desk after each unlocked mission. Same licensed wallet every time. If correct 1st desk replies with that missions shard. Mission 5 works differently the answer unlocks a hidden page with the last shard.</p>
+
+      <article class="card mission" data-m="1">
+        <h2>Mission 1 · The two ledgers</h2>
+        <div class="riddle">
+          <p>Every chain keeps a diary. Some diaries stay on the table. Bitcoin writes the names. Zcash offers a second book. The first book starts with <code>t</code>.</p>
+          <p>What do you call moving coins from the open book into the closed one?</p>
+          <p class="mute">One word. Lowercase.</p>
+<pre>ZA/M1
+ans=
+pay=u1YOUR_LICENSED_ADDRESS</pre>
+        </div>
+        <p class="locknote" hidden></p>
+      </article>
+
+      <article class="card mission" data-m="2">
+        <h2>Mission 2 · The envelope</h2>
+        <div class="riddle">
+          <p>Prove you can pay without showing the pile. Prove you did not spend twice without showing which coin. The verifier learns one bit: valid.</p>
+          <p>Name the proof family Zcash used to make that envelope.</p>
+<pre>ZA/M2
+ans=
+pay=u1YOUR_LICENSED_ADDRESS</pre>
+        </div>
+        <p class="locknote" hidden></p>
+      </article>
+
+      <article class="card mission" data-m="3">
+        <h2>Mission 3 · The 512</h2>
+        <div class="riddle">
+          <p>The payment can carry a letter the chain cannot read. The letter is padded to a fixed size.</p>
+          <p>How many bytes is that letter allowed to be?</p>
+<pre>ZA/M3
+ans=
+pay=u1YOUR_LICENSED_ADDRESS</pre>
+        </div>
+        <p class="locknote" hidden></p>
+      </article>
+
+      <article class="card mission" data-m="4">
+        <h2>Mission 4 · The burned match</h2>
+        <div class="riddle">
+          <p>A private coin is a note. Spending it must mark it used without naming the note.</p>
+          <p>What is that mark called?</p>
+<pre>ZA/M4
+ans=
+pay=u1YOUR_LICENSED_ADDRESS</pre>
+        </div>
+        <p class="locknote" hidden></p>
+      </article>
+
+      <article class="card mission" data-m="5">
+        <h2>Mission 5 · Watch, don’t shoot</h2>
+        <div class="riddle">
+          <p>One key reads incoming memos and amounts. A different key moves the coins.</p>
+          <p>Which key may an agent hand an auditor and still keep the money?</p>
+          <p class="mute">That answer is the door code for shard 5. 1st Desk will not send shard 5 in a memo.</p>
+          <p><a href="shard5.html" style="color:#39ff14;">Open shard 5 vault →</a></p>
+        </div>
+        <p class="locknote" hidden></p>
+      </article>
+    </section>
+
+    <section id="open">
+      <h2>Assemble shards · then open</h2>
+      <p>Build the hidden <code>u1</code> from the five shards. Send dust there — not to 1st Desk.</p>
+<pre>ZA/OPEN
+pass=
+pay=u1YOUR_LICENSED_ADDRESS</pre>
+      <p>1st valid transaction → 1 ZEC.<br>
+         2nd valid transaction → zkSNARK #4931.<br>
+         All valid entries within 24 hours after the Dead Drop is emptied → WL AGENTZ.</p>
+    </section>
+
+    <section id="rules">
+      <h2>Rules of the road</h2>
+      <p>One licensed <code>u1</code>. Same <code>pay=</code> on license, each mission, and open.</p>
+      <p>Missions declassify one per 24 hours from the published start.</p>
+      <p>File cap 404. 1st Desk transmits between 18:00-21:00 UTC.</p>
+      <p>Wrong amount, missing pay, or wrong answer: ignored. No refund.</p>
+      <p>The assembled address is a mailbox. The Cache key is not in the shards.</p>
+      <p>Shard 5 is not transmitted. It is behind the Mission 5 answer.</p>
+    </section>
+
+    <footer>Zecret Agentz · memos only · no public ledger of agents</footer>
+  </div>
+  <script>
+    const MISSION_START = new Date("2026-09-01T18:00:00Z");
+    const DAY = 24 * 60 * 60 * 1000;
+
+    const sections = document.querySelectorAll("section");
+    const tabs = document.querySelectorAll("nav button");
+    function show(id) {
+      sections.forEach((s) => s.classList.toggle("on", s.id === id));
+      tabs.forEach((b) => b.classList.toggle("on", b.dataset.go === id));
+      history.replaceState(null, "", "#" + id);
+      window.scrollTo(0, 0);
+    }
+    document.querySelectorAll("[data-go]").forEach((el) => {
+      el.addEventListener("click", () => show(el.dataset.go));
+    });
+    const startHash = location.hash.slice(1);
+    if (document.getElementById(startHash)) show(startHash);
+
+    function fmt(ms) {
+      if (ms <= 0) return "now";
+      const h = Math.floor(ms / 3600000);
+      const m = Math.floor((ms % 3600000) / 60000);
+      return h + "h " + m + "m";
+    }
+
+    function tick() {
+      const now = Date.now();
+      let openCount = 0;
+      document.querySelectorAll(".mission").forEach((el) => {
+        const n = Number(el.dataset.m);
+        const unlock = MISSION_START.getTime() + (n - 1) * DAY;
+        const note = el.querySelector(".locknote");
+        if (now >= unlock) {
+          el.classList.remove("locked");
+          note.hidden = true;
+          openCount += 1;
+        } else {
+          el.classList.add("locked");
+          note.hidden = false;
+          note.textContent = "CLASSIFIED · declassifies in " + fmt(unlock - now);
+        }
+      });
+      const next = openCount < 5
+        ? "Next mission in " + fmt(MISSION_START.getTime() + openCount * DAY - now)
+        : "All five live.";
+      document.getElementById("sched").textContent =
+        "Start " + MISSION_START.toISOString().slice(0, 16).replace("T", " ") + " UTC · " + next;
+    }
+    tick();
+    setInterval(tick, 30000);
+  </script>
+</body>
+</html>

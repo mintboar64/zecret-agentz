@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Zecret Agentz · Shard 5</title>
+  <style>
+    :root { --bg:#050805; --ink:#39ff14; --line:#1d3a1d; --paper:#0b120b; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; background: var(--bg); color: var(--ink);
+      font-family: "IBM Plex Mono", ui-monospace, "Courier New", monospace;
+      line-height: 1.55;
+    }
+    .wrap { max-width: 720px; margin: 0 auto; padding: 28px 20px 80px; }
+    h1 { letter-spacing: .18em; text-shadow: 0 0 8px #39ff14; font-weight: 500; }
+    a { color: var(--ink); }
+    .card { background: var(--paper); border: 1px solid var(--line); padding: 18px; margin: 16px 0; }
+    input, button {
+      font: inherit; background: #050805; color: var(--ink);
+      border: 1px solid var(--line); padding: 8px 10px;
+    }
+    button { cursor: pointer; text-transform: uppercase; letter-spacing: .08em; }
+    pre {
+      background: #050805; border: 1px solid var(--line);
+      padding: 12px; white-space: pre-wrap; word-break: break-all;
+    }
+    #vault { display: none; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <p><a href="index.html">← File</a></p>
+    <h1>SHARD 5</h1>
+    <p>Door code = Mission 5 answer.</p>
+
+    <div class="card" id="gate">
+      <p>Enter answer</p>
+      <p>
+        <input id="code" type="text" autocomplete="off">
+        <button type="button" id="go">Open</button>
+      </p>
+      <p id="err"></p>
+    </div>
+
+    <div class="card" id="vault">
+      <p class="mute">Shard 5 of 5</p>
+      <pre id="shard"></pre>
+      <p>Assemble 1–5 in order, no spaces. Then send dust to that <code>u1</code>:</p>
+<pre>ZA/OPEN
+password=IRONWOOD
+pay=u1 !!!YOUR_LICENSED_ADDRESS!!!</pre>
+    </div>
+  </div>
+  <script>
+    const SHARD5 = "aps2hucuvq4npwytxjsuchhk9uluedyjtv";
+    function norm(s) {
+      return s.trim().toLowerCase().replace(/[_-]+/g, " ").replace(/\s+/g, " ");
+    }
+    const ok = new Set(["viewing key", "viewingkey", "ivk", "uvk", "uivk"]);
+    function tryOpen() {
+      const typed = norm(document.getElementById("code").value);
+      if (ok.has(typed) || typed.replace(/\s/g, "") === "viewingkey") {
+        document.getElementById("gate").style.display = "none";
+        document.getElementById("vault").style.display = "block";
+        document.getElementById("shard").textContent = SHARD5;
+      } else {
+        document.getElementById("err").textContent = "Denied.";
+      }
+    }
+    document.getElementById("go").onclick = tryOpen;
+    document.getElementById("code").addEventListener("keydown", function (e) {
+      if (e.key === "Enter") tryOpen();
+    });
+  </script>
+</body>
+</html>
