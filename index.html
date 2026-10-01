@@ -103,10 +103,10 @@
 <body>
   <div class="wrap">
     <header>
-      <div class="stamp">File 001 · Mission Codename: Shield</div>
+      <div class="stamp">File 404 · Mission Codename: Shield</div>
       <h1>ZECRET AGENTZ</h1>
       <p>Become a Zecret agent. Carry out the mission.</p>
-      <div class="board" id="board">Active Agents 0 / 101 · 1st DESK OPEN · DEAD DROP SEALED</div>
+      <div class="board" id="board">Active Agents 0 / 100 · 1st DESK OPEN · DEAD DROP SEALED</div>
       <nav>
         <button class="on" data-go="home">Home</button>
         <button data-go="get">Get ZEC</button>
@@ -118,14 +118,18 @@
     </header>
 
     <section id="home" class="on">
-      <p>Pay <strong>$10 in shielded ZEC</strong> from one <code>u1</code>. That address is licensed for every mission that follows. Shielded to protect your agent's identity.</p>
-      <p><strong>First valid transaction submitted takes zkSNARK #4931.</strong></p>
+      <p>Pay <strong>$15 in shielded ZEC</strong> from one <code>u1</code>. That address is licensed for every mission that follows. Shielded to protect your agent's identity.</p>
+      <p><strong>First valid transaction submitted to the dead drop address with the password wins zkSNARK #4931.</strong></p>
       <div class="card">
         <p class="mute">1st prize · first valid passcode</p>
         <p class="stamp">zkSNARKs #4931</p>
         <img class="snark" src="snark.png" alt="zkSNARKs #4931 first prize">
       </div>
-      <p>Five privacy riddles. One new mission every 24 hours. For missions 1–4, send dust (0.001 ZEC) to 1st Desk with the memo shown. Mission 5’s answer opens the shard 5 vault — 1st desk will not send shard 5. Assemble all five shards, then send 0.001 ZEC to that hidden <code>u1</code> with the password. First valid transaction receives zkSnark #4931. Valid transactions after will receive WL AGENTZ (24hr window).</p>
+      <p>Five privacy riddles. One new mission every 24 hours. For missions 1–4, send dust (0.001 ZEC) to 1st Desk with the memo shown. 
+      <p>Mission 5’s answer opens the shard 5 vault — 1st desk will not send shard 5.<p>
+      <p>Assemble all five shards, then send 0.001 ZEC to that dead drop u1 created with the password.</p>
+      <p>First valid transaction receives zkSnark #4931. Valid transactions after will receive WL AGENTZ (24hr window).</p>
+      <p>Mission timer will activate once 50% of agents are in the field.</p>
       <div class="row">
         <button class="btn" data-go="get">Get ZEC</button>
         <button class="btn" data-go="license">Buy a license</button>
@@ -144,7 +148,7 @@
     </section>
 
     <section id="license">
-      <h2>One Off License Fee · $10</h2>
+      <h2>One Off License Fee · $15</h2>
       <p><strong>Shielded ZEC only.</strong> About <span id="zecAmt">…</span> ZEC right now <span class="mute" id="pxNote"></span></p>
       <p>Put your own receiving <code>u1</code> in the memo. That is the wallet we license.</p>
       <div class="card">
@@ -156,6 +160,7 @@ pay= YOUR_u1_ADDRESS
 codename= YOUR_HANDLE</pre>
       </div>
       <p class="mute">1st Desk transmits between 18:00–21:00 UTC. Pending is not a license.</p>
+      <p Active agent count will be a manual update. Any license bought after limit reached wont be refunded.</p>
       <button class="btn" data-go="missions">I have paid</button>
     </section>
 
@@ -190,7 +195,7 @@ pay=u1YOUR_LICENSED_ADDRESS</pre>
       </article>
 
       <article class="card mission" data-m="3">
-        <h2>Mission 3 · The 512</h2>
+        <h2>Mission 3 · The letter</h2>
         <div class="riddle">
           <p>The payment can carry a letter the chain cannot read. The letter is padded to a fixed size.</p>
           <p>How many bytes is that letter allowed to be?</p>
@@ -254,12 +259,16 @@ pay=u1YOUR_LICENSED_ADDRESS</pre>
       <p>The Mission 5 answer opens the vault where the last shard is closely guarded. The Dead Drop password is also in the vault. They are not the same word.</p>
       <p>First valid transaction to the assembled address with password receives zkSNARK #4931.</p>
       <p>The assembled address is a mailbox. The spending key is not in the shards.</p>
+      <p>DO NOT POST THE SHARDS. DO NOT POST THE PASSWORD.</p>
+      <p>Fun is mandatory.</p>
     </section>
 
     <footer>Zecret Agentz · memos only · no public ledger of agents</footer>
   </div>
   <script>
-    const MISSION_START = new Date("2026-10-05T18:00:00Z");
+        /* Flip to true and set START only when the File hits 50. */
+    const HUNT_LIVE = false;
+    const MISSION_START = new Date("2026-10-15T18:00:00Z");
     const DAY = 24 * 60 * 60 * 1000;
 
     const sections = document.querySelectorAll("section");
@@ -283,7 +292,18 @@ pay=u1YOUR_LICENSED_ADDRESS</pre>
       return h + "h " + m + "m";
     }
 
-    function tick() {
+      function tick() {
+      const sched = document.getElementById("sched");
+      if (!HUNT_LIVE) {
+        document.querySelectorAll(".mission").forEach((el) => {
+          el.classList.add("locked");
+          const note = el.querySelector(".locknote");
+          note.hidden = false;
+          note.textContent = "CLASSIFIED · clock starts when the File hits 50";
+        });
+        sched.textContent = "Field not full. Missions have not started.";
+        return;
+      }
       const now = Date.now();
       let openCount = 0;
       document.querySelectorAll(".mission").forEach((el) => {
@@ -303,12 +323,12 @@ pay=u1YOUR_LICENSED_ADDRESS</pre>
       const next = openCount < 5
         ? "Next mission in " + fmt(MISSION_START.getTime() + openCount * DAY - now)
         : "All five live.";
-      document.getElementById("sched").textContent =
-        "Start " + MISSION_START.toISOString().slice(0, 16).replace("T", " ") + " UTC · " + next;
+      sched.textContent =
+        "Started " + MISSION_START.toISOString().slice(0, 16).replace("T", " ") + " UTC · " + next;
     }
     tick();
     setInterval(tick, 30000);
-    const USD_FEE = 10;
+    const USD_FEE = 15;
     const FALLBACK_ZEC = 0.007; /* used if the price feed fails — update now and then */
 
     async function quoteLicense() {
